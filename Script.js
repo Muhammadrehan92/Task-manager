@@ -11,7 +11,10 @@ function addTask() {
         return;
     }
 
-    tasks.push(task);
+    tasks.push({
+        text: task,
+        completed: false
+    });
 
     localStorage.setItem("tasks", JSON.stringify(tasks));
 
@@ -20,11 +23,18 @@ function addTask() {
     displayTasks();
 }
 
+function toggleCheckbox(index) {
+    tasks[index].completed = !tasks[index].completed;
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+
 function editTask(index) {
-    const newText = prompt("Edit your task:", tasks[index]);
+    const newText = prompt("Edit your task:", tasks[index].text);
 
     if (newText !== null && newText.trim() !== "") {
-        tasks[index] = newText.trim();
+        tasks[index].text = newText.trim();
         localStorage.setItem("tasks", JSON.stringify(tasks));
         displayTasks();
     }
@@ -43,10 +53,23 @@ function displayTasks() {
     tasks.forEach((task, index) => {
         taskList.innerHTML += `
             <li class="task">
-                <span class="task-text">${task}</span>
-
+                <span class="task-text">${task.text}</span>
+ 
+                <span class="status">
+    ${task.completed ? "Task Complete" : "Task Not Complete"}
+</span>   
                 <div class="actions">
-                    <button class="edit" onclick="editTask(${index})">
+                <input
+                  type="checkbox"
+                  class="task-checkbox"
+                  ${task.completed ? "checked" : ""}
+                  onchange="toggleCheckbox(${index})"
+                 />
+
+                <label for="myCheckbox"></label>
+                 <span class="status">
+   
+                <button class="edit" onclick="editTask(${index})">
                         Edit
                     </button>
 
