@@ -27,6 +27,7 @@ function toggleCheckbox(index) {
     tasks[index].completed = !tasks[index].completed;
 
     localStorage.setItem("tasks", JSON.stringify(tasks));
+ displayTasks();    
 }
 
 
@@ -65,10 +66,7 @@ function displayTasks() {
                   ${task.completed ? "checked" : ""}
                   onchange="toggleCheckbox(${index})"
                  />
-
-                <label for="myCheckbox"></label>
-                 <span class="status">
-   
+                 
                 <button class="edit" onclick="editTask(${index})">
                         Edit
                     </button>
